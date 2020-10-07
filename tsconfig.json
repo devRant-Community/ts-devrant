@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
-    "strict": true,                           
+    "strict": true,
     "outDir": "dist",
-    "target": "ES2016",                          
-    "module": "umd",                     
+    "target": "ES2016",
+    "module": "umd",
     "lib": ["ESNext"],
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "removeComments": true,    
+    "removeComments": true,
     "moduleResolution": "node",
-    "esModuleInterop": true,                  
+    "esModuleInterop": true,
     "allowUmdGlobalAccess": true,
-    "forceConsistentCasingInFileNames": true  
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   }
 }
