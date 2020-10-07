@@ -223,4 +223,12 @@ export namespace DevRantAPI {
         return request<Responses.TagsResponse>('devrant/search/tags')
     }
 
+        
+    export async function getIdByUsername(username: string) {
+        return request<Responses.UserIdResponse>('get-user-id', {
+            username
+        })
+    }
+
+
 }
