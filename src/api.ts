@@ -9,7 +9,7 @@ export type Range = "day" | "week" | "month" | "all";
  * Not all responses are typed, but the important ones are.
  */
 export namespace DevRantAPI {
-    export function profile(
+    export async function profile(
         userId: string,
         content: string = "all",
         skip: number = 0,
@@ -22,11 +22,11 @@ export namespace DevRantAPI {
         })
     }
 
-    export function rant(rantId: number, token?: Token) {
+    export async function rant(rantId: number, token?: Token) {
         return request<Responses.RantResponse>(["devrant/rants", rantId], mapTokenToRequest(token))
     }
 
-    export function rants(sort: Sort, limit: number, skip: number, range: Range, token?: Token) {
+    export async function rants(sort: Sort, limit: number, skip: number, range: Range, token?: Token) {
         return request<Responses.RantFeedResponse>(["devrant/rants"], {
             ...mapTokenToRequest(token),
             sort,
@@ -36,7 +36,7 @@ export namespace DevRantAPI {
         })
     }
 
-    export function search(term: string) {
+    export async function search(term: string) {
         return request<Responses.SearchResponse>('devrant/search', {
             term
         })
@@ -47,7 +47,7 @@ export namespace DevRantAPI {
      * @param username 
      * @param password 
      */
-    export function login(username: string, password: string) {
+    export async function login(username: string, password: string) {
         return request<Responses.AuthResponse>('users/auth-token', {
             username,
             password
@@ -59,7 +59,7 @@ export namespace DevRantAPI {
      * @param username 
      * @param password 
      */
-    export function register(username: string, email: string, password: string) {
+    export async function register(username: string, email: string, password: string) {
         return request<Responses.RegisterResponse>('users', {
             username,
             email,
@@ -67,7 +67,7 @@ export namespace DevRantAPI {
         }, { method: 'POST' })
     }
 
-    export function postRant(rant: string, tags: Tags, rantType: RantType, image: ArrayBuffer, token: Token) {
+    export async function postRant(rant: string, tags: Tags, rantType: RantType, image: ArrayBuffer, token: Token) {
         return request<Responses.ResponseSignal & { rant_id: number }>('devrant/rants', {
             ...mapTokenToRequest(token),
             rant,
@@ -85,7 +85,7 @@ export namespace DevRantAPI {
      * @param newImage 
      * @param token 
      */
-    export function editRant(rantId: number, newText: string, newTags: Tags, newImage: null | ArrayBuffer = null, token: Token) {
+    export async function editRant(rantId: number, newText: string, newTags: Tags, newImage: null | ArrayBuffer = null, token: Token) {
         return request(['devrant/rants', rantId], {
             ...mapTokenToRequest(token),
             rant: newText,
@@ -94,7 +94,7 @@ export namespace DevRantAPI {
         }, { method: 'POST' })
     }
 
-    export function deleteRant(rantId: number, token: Token) {
+    export async function deleteRant(rantId: number, token: Token) {
         return request(
             ['devrant/rants', rantId],
             mapTokenToRequest(token),
@@ -102,14 +102,14 @@ export namespace DevRantAPI {
         )
     }
 
-    export function comment(commentId: number, token?: Token) {
+    export async function comment(commentId: number, token?: Token) {
         return request<Responses.CommentResponse>(['comments', commentId], {
             ...mapTokenToRequest(token),
             comment,
         })
     }
 
-    export function postComment(rantId: number, comment: string, image: null | ArrayBuffer = null, token: Token) {
+    export async function postComment(rantId: number, comment: string, image: null | ArrayBuffer = null, token: Token) {
         return request(['devrant/rants', rantId, 'comments'], {
             ...mapTokenToRequest(token),
             comment,
@@ -124,7 +124,7 @@ export namespace DevRantAPI {
      * @param newImage 
      * @param token 
      */
-    export function editComment(commentId: number, newComment: string, newImage: null | ArrayBuffer = null, token: Token) {
+    export async function editComment(commentId: number, newComment: string, newImage: null | ArrayBuffer = null, token: Token) {
         return request(['comments', commentId], {
             ...mapTokenToRequest(token),
             comment: newComment,
@@ -132,7 +132,7 @@ export namespace DevRantAPI {
         }, { method: 'POST' })
     }
 
-    export function deleteComment(commentId: number, token: Token) {
+    export async function deleteComment(commentId: number, token: Token) {
         return request(
             ['comments', commentId],
             mapTokenToRequest(token),
@@ -140,25 +140,25 @@ export namespace DevRantAPI {
         )
     }
 
-    export function vote(vote: VoteState, rantId: number, token: Token) {
+    export async function vote(vote: VoteState, rantId: number, token: Token) {
         return request<Responses.RantResponse>(['devrant/rants', rantId, 'vote'], {
             ...mapTokenToRequest(token),
             vote
         }, { method: 'POST' })
     }
 
-    export function voteComment(vote: VoteState, commentId: number, token: Token) {
+    export async function voteComment(vote: VoteState, commentId: number, token: Token) {
         return request<Responses.CommentResponse>(['comments', commentId, 'vote'], {
             ...mapTokenToRequest(token),
             vote
         }, { method: 'POST' })
     }
 
-    export function surpriseRant(token?: Token) {
+    export async function surpriseRant(token?: Token) {
         return request('devrant/rants/surprise', mapTokenToRequest(token))
     }
 
-    export function notifications(token: Token, lastTime: number = 0) {
+    export async function notifications(token: Token, lastTime: number = 0) {
         return request<Responses.NotificationResponse>('users/me/notif-feed', {
             ...mapTokenToRequest(token),
             last_time: lastTime,
@@ -166,11 +166,11 @@ export namespace DevRantAPI {
         })
     }
 
-    export function clearNotifications(token: Token) {
+    export async function clearNotifications(token: Token) {
         return request('users/me/notif-feed', mapTokenToRequest(token), { method: 'DELETE' })
     }
 
-    export function collabs(sort: Sort, limit: number, skip: number, token: Token) {
+    export async function collabs(sort: Sort, limit: number, skip: number, token: Token) {
         return request('devrant/collabs', {
             ...mapTokenToRequest(token),
             sort,
@@ -179,7 +179,7 @@ export namespace DevRantAPI {
         })
     }
 
-    export function stories(sort: Sort, limit: number, skip: number, range: Range, token: Token) {
+    export async function stories(sort: Sort, limit: number, skip: number, range: Range, token: Token) {
         return request('devrant/story-rants', {
             ...mapTokenToRequest(token),
             sort,
@@ -189,7 +189,7 @@ export namespace DevRantAPI {
         })
     }
 
-    export function weekly(sort: Sort, limit: number, skip: number, week: number, token: Token) {
+    export async function weekly(sort: Sort, limit: number, skip: number, week: number, token: Token) {
         return request('devrant/weekly-rants', {
             ...mapTokenToRequest(token),
             sort,
@@ -199,27 +199,27 @@ export namespace DevRantAPI {
         })
     }
 
-    export function listWeekly(token: Token) {
+    export async function listWeekly(token: Token) {
         return request('devrant/weekly-list', mapTokenToRequest(token))
     }
 
-    export function favorite(rantId: number, token: Token) {
+    export async function favorite(rantId: number, token: Token) {
         return request(['devrant/rants', rantId, 'favorite'], mapTokenToRequest(token), { method: 'POST' })
     }
 
-    export function unFavorite(rantId: number, token: Token) {
+    export async function unFavorite(rantId: number, token: Token) {
         return request(['devrant/rants', rantId, 'unfavorite'], mapTokenToRequest(token), { method: 'POST' })
     }
 
-    export function subscribe(toUserId: number, token: Token) {
+    export async function subscribe(toUserId: number, token: Token) {
         return request(['users', toUserId, 'subscribe'], mapTokenToRequest(token), { method: 'POST' })
     }
 
-    export function unSubscribe(toUserId: number, token: Token) {
+    export async function unSubscribe(toUserId: number, token: Token) {
         return request(['users', toUserId, 'subscribe'], mapTokenToRequest(token), { method: 'DELETE' })
     }
 
-    export function getFrequentSearchTerms() {
+    export async function getFrequentSearchTerms() {
         return request<Responses.TagsResponse>('devrant/search/tags')
     }
 
