@@ -3,7 +3,7 @@
     "strict": true,
     "outDir": "dist",
     "target": "ES2016",
-    "module": "umd",
+    "module": "CommonJS",
     "lib": ["ESNext"],
     "declaration": true,
     "declarationMap": true,
