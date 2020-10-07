@@ -1,9 +1,18 @@
-import { request } from "./http";
-import { RantType, Responses, Tags, Token, VoteState } from "./types";
-import { mapTokenToRequest } from './utils';
+import {request} from "./http";
+import {RantType, Responses, Tags, Token, VoteState} from "./types";
+import {mapTokenToRequest} from './utils';
 
-export type Sort = "algo" | "top" | "recent";
-export type Range = "day" | "week" | "month" | "all";
+export enum Sort {
+    Algo = "algo",
+    Top = "top",
+    Recent = "recent"
+}
+export enum Range {
+    Day = "day",
+    Week = "week",
+    Month = "month",
+    All = "all"
+}
 
 /**
  * Not all responses are typed, but the important ones are.
@@ -223,12 +232,11 @@ export namespace DevRantAPI {
         return request<Responses.TagsResponse>('devrant/search/tags')
     }
 
-        
+
     export async function getIdByUsername(username: string) {
         return request<Responses.UserIdResponse>('get-user-id', {
             username
         })
     }
-
 
 }

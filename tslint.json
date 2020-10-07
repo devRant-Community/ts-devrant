@@ -1,0 +1,24 @@
+{
+    "extends": ["tslint-consistent-codestyle"],
+    "rules": {
+        "naming-convention": [
+            true,
+            {
+                "type": "enumMember",
+                "format": "PascalCase"
+            }
+        ]
+    },
+    "max-line-length": {
+        "options": [
+            120
+        ]
+    },
+    "jsRules": {
+        "max-line-length": {
+            "options": [
+                120
+            ]
+        }
+    }
+}

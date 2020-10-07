@@ -1,6 +1,12 @@
-
-
-export type PostType = "rant" | "undefined" | "joke/meme" | "question" | "devRant" | "random" | "collab";
+export enum PostType {
+    Rant = "rant",
+    Undefined = "undefined",
+    JokeMeme = "joke/meme",
+    Question = "question",
+    DevRant = "devRant",
+    Random = "random",
+    Collab = "collab"
+}
 
 /**
  * This enum is for creating a Rant
@@ -15,7 +21,14 @@ export enum RantType {
     Collab
 }
 
-export type NotificationKind = "comment_content" | "comment_discuss" | "comment_mention" | "comment_vote" | "content_vote" | "rant_sub"
+export enum NotificationKind {
+    CommentContent = "comment_content",
+    CommentDiscuss = "comment_discuss",
+    CommentMention = "comment_mention",
+    CommentVote = "comment_vote",
+    ContentVote = "content_vote",
+    CantSub = "rant_sub"
+}
 
 export interface Notification {
     comment_id?: number
@@ -204,6 +217,7 @@ export interface Image {
 }
 
 export type Tags = string[];
+
 export type RantTags = [PostType] & Tags;
 
 export interface RantInFeed extends RantEntry {
