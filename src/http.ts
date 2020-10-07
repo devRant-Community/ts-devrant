@@ -1,10 +1,17 @@
 import debug from 'debug';
-import FormData from 'form-data'
-import fetch, { RequestInit } from 'node-fetch'
+import fetchNode from 'node-fetch'
 // @ts-ignore
-import URL from 'url-polyfill'
+import URLNode from 'url-polyfill'
+// @ts-ignore
+import FormDataNode from 'form-data'
 
 import { getConfig } from './config';
+
+const _global = typeof global !== 'undefined' ? global : window;
+
+const URL = _global.URL || URLNode
+const FormData = _global.FormData || FormDataNode
+const fetch = _global.fetch || fetchNode
 
 const log = debug('dr:request');
 log.log = console.log.bind(console);
@@ -31,21 +38,24 @@ export async function request<T>(
             : url,
         config.api
     )
-    
+
     const addParams = (addFunc: (value: [string, number], index: number, array: [string, number][]) => any) => Object.entries({
         ...alwaysIncludeParams,
         ...params
     }).forEach(addFunc)
 
-    const form = new FormData();
+    let form: null | FormData = null;
 
     /**
      * If you use lowercase HTTP methods, it's your fault.
      */
     switch (options.method) {
         case "POST": {
+            form = new FormData();
             addParams(([name, value]) => {
-                form.append(name, String(value))
+                if (form) {
+                    form.append(name, String(value))
+                }
             })
             break;
         }
