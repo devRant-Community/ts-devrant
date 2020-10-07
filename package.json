@@ -1,0 +1,39 @@
+{
+  "name": "ts-devrant",
+  "version": "0.0.0",
+  "description": "DevRant API in TypeScript inspired by RantScript",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dr010001111/ts-devrant.git"
+  },
+  "keywords": [
+    "javascript",
+    "typescript",
+    "devrant"
+  ],
+  "author": "Max",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dr010001111/ts-devrant/issues"
+  },
+  "homepage": "https://github.com/dr010001111/ts-devrant#readme",
+  "dependencies": {
+    "@types/debug": "^4.1.5",
+    "@types/form-data": "^2.5.0",
+    "@types/node-fetch": "^2.5.7",
+    "debug": "^4.2.0",
+    "form-data": "^3.0.0",
+    "node-fetch": "^2.6.1",
+    "url-polyfill": "^1.1.10"
+  },
+  "devDependencies": {
+    "@types/typescript": "^2.0.0",
+    "typescript": "^4.0.3"
+  }
+}
