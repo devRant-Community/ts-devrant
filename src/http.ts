@@ -1,8 +1,7 @@
 import debug from 'debug';
 import fetchNode from 'node-fetch'
-// @ts-ignore
+/* @ts-ignore */
 import URLNode from 'url-polyfill'
-// @ts-ignore
 import FormDataNode from 'form-data'
 
 import { getConfig } from './config';
@@ -22,9 +21,15 @@ const alwaysIncludeParams = {
 }
 
 type Stringable = string | number | boolean;
+type ParamHandlerFunc = (
+    value: [string, number],
+    index: number,
+    array: [string, number][]
+) => void;
 
 export async function request<T>(
     url: string | Stringable[],
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params: { [name: string]: any } = {},
     options: RequestInit = {}
 ): Promise<T> {
@@ -39,7 +44,7 @@ export async function request<T>(
         config.api
     )
 
-    const addParams = (addFunc: (value: [string, number], index: number, array: [string, number][]) => any) => Object.entries({
+    const addParams = (addFunc: ParamHandlerFunc) => Object.entries({
         ...alwaysIncludeParams,
         ...params
     }).forEach(addFunc)
@@ -76,6 +81,7 @@ export async function request<T>(
     if (response.headers.get('content-type') === 'application/json') {
         json = await response.json();
     } else if (!response.ok) {
+        // eslint-disable-next-line max-len
         throw new Error(`${response.status}: ${response.statusText}; ${await response.text()}`)
     }
 

@@ -1,10 +1,10 @@
 import { Token } from './types';
 
-export function getImageURL(imageId: string) {
+export function getImageURL(imageId: string): string {
     return `https://avatars.devrant.com/${imageId}`;
 }
 
-export function mapTokenToRequest(token?: Token) {
+export function mapTokenToRequest(token?: Token): { [name: string]: unknown } {
     if (!token) {
         return {}
     }

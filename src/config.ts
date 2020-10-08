@@ -1,4 +1,3 @@
-
 import defaults from './default-config';
 
 interface Configuration {
@@ -7,13 +6,15 @@ interface Configuration {
 
 let config: Configuration = defaults;
 
-export function updateConfig(updatedConfig: Partial<Configuration>) {
-    config = {
+export function updateConfig(
+    updatedConfig: Partial<Configuration>
+): Configuration {
+    return config = {
         ...config,
         ...updatedConfig
     }
 }
 
-export function getConfig() {
+export function getConfig(): Configuration {
     return config;
 }

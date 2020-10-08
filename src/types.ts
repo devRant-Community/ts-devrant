@@ -1,6 +1,14 @@
+export * from './response-types';
 
-
-export type PostType = "rant" | "undefined" | "joke/meme" | "question" | "devRant" | "random" | "collab";
+export enum PostType {
+    Rant = "rant",
+    Undefined = "undefined",
+    JokeMeme = "joke/meme",
+    Question = "question",
+    DevRant = "devRant",
+    Random = "random",
+    Collab = "collab"
+}
 
 /**
  * This enum is for creating a Rant
@@ -15,7 +23,14 @@ export enum RantType {
     Collab
 }
 
-export type NotificationKind = "comment_content" | "comment_discuss" | "comment_mention" | "comment_vote" | "content_vote" | "rant_sub"
+export enum NotificationKind {
+    CommentContent = "comment_content",
+    CommentDiscuss = "comment_discuss",
+    CommentMention = "comment_mention",
+    CommentVote = "comment_vote",
+    ContentVote = "content_vote",
+    CantSub = "rant_sub"
+}
 
 export interface Notification {
     comment_id?: number
@@ -42,79 +57,6 @@ export interface Notifications {
         subs: number,
         total: number,
         upvotes: number,
-    }
-}
-
-export namespace Responses {
-
-    export interface ResponseSignal {
-        success: boolean;
-        error?: string;
-    }
-
-    export interface NotificationResponse extends ResponseSignal {
-        data: Notifications
-    }
-
-    interface FailureRegisterResponse {
-        success: false;
-        error: string;
-        error_field: string;
-    }
-
-    export type RegisterResponse = AuthResponse | FailureRegisterResponse;
-
-    export interface AuthResponse extends ResponseSignal {
-        auth_token: Token & {
-            expire_time: number,
-        }
-    }
-
-    export interface CommentResponse extends ResponseSignal {
-        comment: Comment
-    }
-
-    export interface TagsResponse {
-        tags: Tags
-    }
-
-    export interface SearchResponse extends ResponseSignal {
-        results: RantInFeed[]
-    }
-
-    export interface RantInFeedResponse extends RantInFeed {
-
-    }
-
-    export interface RantResponse extends ResponseSignal {
-        rant: RantInFeed;
-        comments: Comment[];
-    }
-
-    export interface RantFeedResponse extends ResponseSignal {
-        rants: RantInFeed[],
-        /**
-         * TODO: @Skayo What the fuck is notif_state? And for what is the notif_token?
-         */
-        settings?: unknown,
-        set: SessionHash,
-
-        /**
-         * Weekly-Rant Week
-         */
-        wrw: number,
-        dpp?: DevRantSupporter,
-        num_notifs?: number,
-        unread?: number,
-        news: News
-    }
-
-    export interface UserIdResponse extends ResponseSignal {
-        user_id: number
-    }
-
-    export interface ProfileResponse extends ResponseSignal {
-        profile: Profile
     }
 }
 
@@ -147,7 +89,7 @@ export interface Profile {
 }
 
 export type SessionHash = string;
-type DevRantSupporter = 0 | 1;
+export type DevRantSupporter = 0 | 1;
 
 export enum Action {
     None = "none",
@@ -204,6 +146,7 @@ export interface Image {
 }
 
 export type Tags = string[];
+
 export type RantTags = [PostType] & Tags;
 
 export interface RantInFeed extends RantEntry {

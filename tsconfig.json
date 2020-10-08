@@ -1,18 +1,18 @@
 {
-  "compilerOptions": {
-    "strict": true,
-    "outDir": "dist",
-    "target": "ES2016",
-    "module": "CommonJS",
-    "lib": ["ESNext", "DOM"],
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "removeComments": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "allowUmdGlobalAccess": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
-  }
+    "compilerOptions": {
+        "strict": true,
+        "outDir": "dist",
+        "target": "ES2016",
+        "module": "CommonJS",
+        "lib": ["ESNext", "DOM"],
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
+        "removeComments": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "allowUmdGlobalAccess": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true
+    }
 }
