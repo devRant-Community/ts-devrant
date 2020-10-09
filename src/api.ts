@@ -74,8 +74,7 @@ export async function login(
         {
             username,
             password,
-        },
-        { method: "POST" }
+        }
     );
 }
 
