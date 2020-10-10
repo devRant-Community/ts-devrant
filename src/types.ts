@@ -128,6 +128,7 @@ export interface Avatar {
 export interface RantEntry {
     id: number,
     score: number,
+    links?: LinkDef[],
     created_time: number,
     attached_image: Image,
     vote_state: VoteState,
@@ -148,6 +149,16 @@ export interface Image {
 export type Tags = string[];
 
 export type RantTags = [PostType] & Tags;
+
+export interface LinkDef {
+    end: number
+    start: number
+    short_url: string
+    special: 1
+    title: string
+    type: "url"
+    url: string
+}
 
 export interface RantInFeed extends RantEntry {
     user_dpp: DevRantSupporter;
