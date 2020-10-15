@@ -104,19 +104,16 @@ export async function postRant(
     rant: string,
     tags: t.Tags,
     rantType: t.RantType,
-    image: ArrayBuffer,
+    image: File | Blob,
     token: t.Token
 ): Promise<t.ResponseSignal & { rant_id: number }> {
-    return request("devrant/rants",
-        {
-            ...mapTokenToRequest(token),
-            rant,
-            type: rantType,
-            tags,
-            image,
-        }
-    )
-
+    return request("devrant/rants", {
+        ...mapTokenToRequest(token),
+        rant,
+        type: rantType,
+        tags,
+        image,
+    });
 }
 
 /**
@@ -131,7 +128,7 @@ export async function editRant(
     rantId: number,
     newText: string,
     newTags: t.Tags,
-    newImage: null | ArrayBuffer = null,
+    newImage: null | File | Blob = null,
     token: t.Token
 ) {
     return request(
@@ -165,7 +162,7 @@ export async function comment(
 export async function postComment(
     rantId: number,
     comment: string,
-    image: null | ArrayBuffer = null,
+    image: null | File | Blob = null,
     token: t.Token
 ) {
     return request(
@@ -189,7 +186,7 @@ export async function postComment(
 export async function editComment(
     commentId: number,
     newComment: string,
-    newImage: null | ArrayBuffer = null,
+    newImage: null | File | Blob = null,
     token: t.Token
 ) {
     return request(
@@ -327,26 +324,18 @@ export async function unFavorite(rantId: number, token: t.Token) {
 }
 
 export async function subscribe(toUserId: number, token: t.Token) {
-    return request(
-        ["users", toUserId, "subscribe"],
-        mapTokenToRequest(token),
-        {
-            method: "POST",
-        }
-    );
+    return request(["users", toUserId, "subscribe"], mapTokenToRequest(token), {
+        method: "POST",
+    });
 }
 
 export async function unSubscribe(toUserId: number, token: t.Token) {
-    return request(
-        ["users", toUserId, "subscribe"],
-        mapTokenToRequest(token),
-        {
-            method: "DELETE",
-        });
+    return request(["users", toUserId, "subscribe"], mapTokenToRequest(token), {
+        method: "DELETE",
+    });
 }
 
-export async function getFrequentSearchTerms():
-    Promise<t.TagsResponse> {
+export async function getFrequentSearchTerms(): Promise<t.TagsResponse> {
     return request("devrant/search/tags");
 }
 
