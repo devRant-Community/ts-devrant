@@ -1,9 +1,13 @@
 {
     "name": "ts-devrant",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "DevRant API in TypeScript inspired by RantScript",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
+    "files": [
+        "dist/",
+        "scripts/"
+    ],
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "lint": "eslint src/ --ext .ts",
