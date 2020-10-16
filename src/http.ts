@@ -57,8 +57,11 @@ export async function request<T>(
             form = new FormData();
             addParams(([name, value]) => {
                 if (form) {
-                    const isFile =
-                        value instanceof File || Boolean((value as Blob).type);
+                    const isFile = value
+                        && (
+                            value instanceof File
+                            || Boolean((value as Blob).type)
+                        );
 
                     if (isFile) {
                         let fileName = value instanceof File && value.name;
@@ -96,8 +99,7 @@ export async function request<T>(
     } else if (!response.ok) {
         // eslint-disable-next-line max-len
         throw new Error(
-            `${response.status}: ${
-                response.statusText
+            `${response.status}: ${response.statusText
             }; ${await response.text()}`
         );
     }
