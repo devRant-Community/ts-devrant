@@ -113,7 +113,7 @@ export async function postRant(
         type: rantType,
         tags,
         image,
-    });
+    }, { method: 'POST' });
 }
 
 /**
