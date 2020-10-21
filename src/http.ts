@@ -1,10 +1,10 @@
 import debug from "debug";
+import FormDataNode from "form-data";
 import fetchNode from "node-fetch";
 /* @ts-ignore */
 import URLNode from "url-polyfill";
-import FormDataNode, { Readable } from "form-data";
-
 import { getConfig } from "./config";
+
 
 const _global = typeof global !== "undefined" ? global : window;
 
@@ -55,16 +55,18 @@ export async function request<T>(
     switch (options.method) {
         case "POST": {
             form = new FormData();
-            addParams(([name, value]) => {
+            addParams(([name, _value]) => {
+                const value = _value as any;
                 if (form) {
-                    const isFile = value
-                        && (
-                            value instanceof File
-                            || Boolean((value as Blob).type)
-                        );
+                    const isFile = value && (
+                        Boolean(
+                            (value as Blob).type
+                            || value.constructor.name === "File"
+                        )
+                    );
 
                     if (isFile) {
-                        let fileName = value instanceof File && value.name;
+                        let fileName = value && value.name;
                         if (!fileName) {
                             const fileExt = (value as Blob).type
                                 .split("/")
