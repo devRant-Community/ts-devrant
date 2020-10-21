@@ -15,12 +15,13 @@ export enum PostType {
  * @see PostType
  */
 export enum RantType {
-    Rant,
-    JokeMeme,
-    Question,
-    DevRant,
-    Random,
-    Collab
+    Rant = 1,
+    Collab = 2,
+    JokeMeme = 3,
+    Question = 4,
+    DevRant = 5,
+    Random = 6,
+    Undefined = 7,
 }
 
 export enum NotificationKind {
