@@ -104,7 +104,7 @@ export async function postRant(
     rant: string,
     tags: t.Tags,
     rantType: t.RantType,
-    image: File | Blob,
+    image: null | File | Blob | Buffer | NodeJS.ReadableStream = null,
     token: t.Token
 ): Promise<t.ResponseSignal & { rant_id: number }> {
     return request("devrant/rants", {
@@ -128,7 +128,7 @@ export async function editRant(
     rantId: number,
     newText: string,
     newTags: t.Tags,
-    newImage: null | File | Blob = null,
+    newImage: null | File | Blob | Buffer | NodeJS.ReadableStream = null,
     token: t.Token
 ) {
     return request(
@@ -162,7 +162,7 @@ export async function comment(
 export async function postComment(
     rantId: number,
     comment: string,
-    image: null | File | Blob = null,
+    image: null | File | Blob | Buffer | NodeJS.ReadableStream = null,
     token: t.Token
 ) {
     return request(
@@ -186,7 +186,7 @@ export async function postComment(
 export async function editComment(
     commentId: number,
     newComment: string,
-    newImage: null | File | Blob = null,
+    newImage: null | File | Blob | Buffer | NodeJS.ReadableStream = null,
     token: t.Token
 ) {
     return request(

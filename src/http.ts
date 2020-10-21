@@ -3,6 +3,7 @@ import FormDataNode from "form-data";
 import fetchNode from "node-fetch";
 /* @ts-ignore */
 import URLNode from "url-polyfill";
+import FileType = require('file-type');
 import { getConfig } from "./config";
 
 
@@ -23,8 +24,6 @@ const alwaysIncludeParams = {
 type Stringable = string | number | boolean;
 type ParamHandlerFunc = (
     value: [string, Stringable | File | Blob],
-    index: number,
-    array: [string, number][]
 ) => void;
 
 export async function request<T>(
@@ -41,11 +40,16 @@ export async function request<T>(
         config.api
     );
 
-    const addParams = (addFunc: ParamHandlerFunc) =>
-        Object.entries({
+    const addParams = async (addFunc: ParamHandlerFunc) => {
+        const entries = Object.entries({
             ...alwaysIncludeParams,
             ...params,
-        }).forEach(addFunc);
+        })
+
+        for (const entry of entries) {
+            await addFunc(entry);
+        }
+    };
 
     let form: null | FormData = null;
 
@@ -55,29 +59,38 @@ export async function request<T>(
     switch (options.method) {
         case "POST": {
             form = new FormData();
-            addParams(([name, _value]) => {
+            await addParams(async ([name, _value]) => {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const value = _value as any;
                 if (form) {
-                    const isFile = value && (
-                        Boolean(
-                            (value as Blob).type
-                            || value.constructor.name === "File"
-                        )
-                    );
+                    let fileName = undefined;
 
-                    if (isFile) {
-                        let fileName = value && value.name;
-                        if (!fileName) {
-                            const fileExt = (value as Blob).type
-                                .split("/")
-                                .pop();
-                            fileName = `attachment.${fileExt}`;
+                    if (name === 'image') {
+                        if (value.constructor.name === "File") {
+                            fileName = `attachment.${(value as File).type
+                                .split('/')
+                                .pop()
+                                }`;
+                        } else if (value.constructor.name === "Buffer") {
+                            const type = await FileType.fromBuffer(value)
+                            fileName = type
+                                ? `attachment.${type.ext}`
+                                : undefined
+                        } else {
+                            const type = await FileType.fromStream(value);
+                            fileName = type
+                                ? `attachment.${type.ext}`
+                                : undefined
                         }
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        form.append(name, value as any, fileName);
-                    } else {
-                        form.append(name, String(value));
                     }
+
+                    form.append(
+                        name,
+                        value instanceof Array
+                            ? value.join()
+                            : value,
+                        fileName
+                    );
                 }
             });
             break;

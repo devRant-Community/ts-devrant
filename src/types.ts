@@ -2,12 +2,12 @@ export * from './response-types';
 
 export enum PostType {
     Rant = "rant",
-    Undefined = "undefined",
     JokeMeme = "joke/meme",
     Question = "question",
     DevRant = "devRant",
     Random = "random",
-    Collab = "collab"
+    Collab = "collab",
+    Undefined = "undefined",
 }
 
 /**

@@ -1,6 +1,6 @@
 {
     "name": "ts-devrant",
-    "version": "0.0.5",
+    "version": "0.0.7",
     "description": "DevRant API in TypeScript inspired by RantScript",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -33,9 +33,11 @@
     "homepage": "https://github.com/dr010001111/ts-devrant#readme",
     "dependencies": {
         "@types/debug": "^4.1.5",
+        "@types/file-type": "^10.9.1",
         "@types/form-data": "^2.5.0",
         "@types/node-fetch": "^2.5.7",
         "debug": "^4.2.0",
+        "file-type": "^16.0.0",
         "form-data": "^3.0.0",
         "node-fetch": "^2.6.1",
         "url-polyfill": "^1.1.10"
