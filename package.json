@@ -1,19 +1,21 @@
 {
     "name": "ts-devrant",
-    "version": "0.0.9-rc.1",
+    "version": "0.1.1",
     "description": "DevRant API in TypeScript inspired by RantScript",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "browser": "browser/index.js",
     "files": [
-        "dist/",
-        "scripts/"
+        "lib/",
+        "browser/"
     ],
     "scripts": {
         "test": "jest",
         "lint": "eslint src/ --ext .ts",
         "eslint:view": "eslint --print-config .eslintrc",
-        "build": "tsc",
-        "install": "scripts/build-if-not-done.sh",
+        "build:node": "tsc",
+        "build:browser": "tsc --build tsconfig.browser.json",
+        "build": "npm run build:node && npm run build:browser",
         "prepublishOnly": "npm run build"
     },
     "repository": {

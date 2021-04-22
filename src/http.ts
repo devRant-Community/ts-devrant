@@ -1,5 +1,6 @@
-import debug from "debug";
-import fetch from "cross-fetch";
+import * as Cross from "cross-fetch";
+import * as debug from "debug";
+
 import { config } from "./config";
 
 const log = debug("dr:request");
@@ -58,7 +59,7 @@ export async function request<T>(
         }
     }
 
-    const response = await fetch(String(requestUrl), {
+    const response = await Cross.fetch(String(requestUrl), {
         ...options,
         body: form,
     });
