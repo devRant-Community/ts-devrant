@@ -6,6 +6,12 @@
 > Know what you get!
 > ![response-suggestions](./images/response-suggestions.png)
 
+# Size
+
+-   16K minified (using webpack, browser target)
+-   UMD Module 40K `du -sh -I "*.d.ts" lib`
+-   Browser Module 36K `du -sh -I "*.d.ts" browser`
+
 # Different endpoint / Updating config
 
 ```typescript
