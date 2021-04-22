@@ -1,8 +1,10 @@
 # The great Rantscript done better in TypeScript
 
--   All Responses are properly typed
--   Support for Browser AND NodeJS
--   Just plain cooler.
+> Know what to provide!
+> ![request-example](./images/request-example.png)
+
+> Know what you get!
+> ![response-suggestions](./images/response-suggestions.png)
 
 # Custom requests
 
