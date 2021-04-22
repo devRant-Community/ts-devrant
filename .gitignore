@@ -1,2 +1,4 @@
-dist/
+lib/
+browser/
 node_modules/
+*.min.js

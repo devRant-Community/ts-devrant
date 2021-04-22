@@ -1,6 +1,6 @@
 import { request } from "./http";
 import * as t from "./types";
-import { mapTokenToRequest } from "./utils";
+import { withToken } from "./utils";
 
 export enum Sort {
     Algo = "algo",
@@ -20,12 +20,12 @@ export enum Range {
  */
 export async function profile(
     userId: string,
-    content = "all",
+    content: t.ProfileContentTypes = t.ProfileContentTypes.All,
     skip = 0,
     token?: t.Token
 ): Promise<t.ProfileResponse> {
     return request(["users", userId], {
-        ...mapTokenToRequest(token),
+        ...withToken(token),
         content,
         skip,
     });
@@ -35,7 +35,7 @@ export async function rant(
     rantId: number,
     token?: t.Token
 ): Promise<t.RantResponse> {
-    return request(["devrant/rants", rantId], mapTokenToRequest(token));
+    return request(["devrant/rants", rantId], withToken(token));
 }
 
 export async function rants(
@@ -46,7 +46,7 @@ export async function rants(
     token?: t.Token
 ): Promise<t.RantFeedResponse> {
     return request(["devrant/rants"], {
-        ...mapTokenToRequest(token),
+        ...withToken(token),
         sort,
         limit,
         skip,
@@ -107,13 +107,17 @@ export async function postRant(
     image: null | File | Blob | Buffer | NodeJS.ReadableStream = null,
     token: t.Token
 ): Promise<t.ResponseSignal & { rant_id: number }> {
-    return request("devrant/rants", {
-        ...mapTokenToRequest(token),
-        rant,
-        type: rantType,
-        tags,
-        image,
-    }, { method: 'POST' });
+    return request(
+        "devrant/rants",
+        {
+            ...withToken(token),
+            rant,
+            type: rantType,
+            tags,
+            image,
+        },
+        { method: "POST" }
+    );
 }
 
 /**
@@ -134,7 +138,7 @@ export async function editRant(
     return request(
         ["devrant/rants", rantId],
         {
-            ...mapTokenToRequest(token),
+            ...withToken(token),
             rant: newText,
             tags: newTags,
             image: newImage,
@@ -144,7 +148,7 @@ export async function editRant(
 }
 
 export async function deleteRant(rantId: number, token: t.Token) {
-    return request(["devrant/rants", rantId], mapTokenToRequest(token), {
+    return request(["devrant/rants", rantId], withToken(token), {
         method: "DELETE",
     });
 }
@@ -154,7 +158,7 @@ export async function comment(
     token?: t.Token
 ): Promise<t.CommentResponse> {
     return request(["comments", commentId], {
-        ...mapTokenToRequest(token),
+        ...withToken(token),
         comment,
     });
 }
@@ -168,7 +172,7 @@ export async function postComment(
     return request(
         ["devrant/rants", rantId, "comments"],
         {
-            ...mapTokenToRequest(token),
+            ...withToken(token),
             comment,
             image,
         },
@@ -192,7 +196,7 @@ export async function editComment(
     return request(
         ["comments", commentId],
         {
-            ...mapTokenToRequest(token),
+            ...withToken(token),
             comment: newComment,
             image: newImage,
         },
@@ -201,7 +205,7 @@ export async function editComment(
 }
 
 export async function deleteComment(commentId: number, token: t.Token) {
-    return request(["comments", commentId], mapTokenToRequest(token), {
+    return request(["comments", commentId], withToken(token), {
         method: "DELETE",
     });
 }
@@ -214,7 +218,7 @@ export async function vote(
     return request(
         ["devrant/rants", rantId, "vote"],
         {
-            ...mapTokenToRequest(token),
+            ...withToken(token),
             vote,
         },
         { method: "POST" }
@@ -229,7 +233,7 @@ export async function voteComment(
     return request(
         ["comments", commentId, "vote"],
         {
-            ...mapTokenToRequest(token),
+            ...withToken(token),
             vote,
         },
         { method: "POST" }
@@ -237,7 +241,7 @@ export async function voteComment(
 }
 
 export async function surpriseRant(token?: t.Token) {
-    return request("devrant/rants/surprise", mapTokenToRequest(token));
+    return request("devrant/rants/surprise", withToken(token));
 }
 
 export async function notifications(
@@ -245,14 +249,14 @@ export async function notifications(
     lastTime = 0
 ): Promise<t.NotificationResponse> {
     return request("users/me/notif-feed", {
-        ...mapTokenToRequest(token),
+        ...withToken(token),
         last_time: lastTime,
         ext_prof: 1,
     });
 }
 
 export async function clearNotifications(token: t.Token) {
-    return request("users/me/notif-feed", mapTokenToRequest(token), {
+    return request("users/me/notif-feed", withToken(token), {
         method: "DELETE",
     });
 }
@@ -264,7 +268,7 @@ export async function collabs(
     token: t.Token
 ) {
     return request("devrant/collabs", {
-        ...mapTokenToRequest(token),
+        ...withToken(token),
         sort,
         limit,
         skip,
@@ -279,7 +283,7 @@ export async function stories(
     token: t.Token
 ) {
     return request("devrant/story-rants", {
-        ...mapTokenToRequest(token),
+        ...withToken(token),
         sort,
         limit,
         skip,
@@ -295,7 +299,7 @@ export async function weekly(
     token: t.Token
 ) {
     return request("devrant/weekly-rants", {
-        ...mapTokenToRequest(token),
+        ...withToken(token),
         sort,
         limit,
         skip,
@@ -304,33 +308,29 @@ export async function weekly(
 }
 
 export async function listWeekly(token: t.Token) {
-    return request("devrant/weekly-list", mapTokenToRequest(token));
+    return request("devrant/weekly-list", withToken(token));
 }
 
 export async function favorite(rantId: number, token: t.Token) {
-    return request(
-        ["devrant/rants", rantId, "favorite"],
-        mapTokenToRequest(token),
-        { method: "POST" }
-    );
+    return request(["devrant/rants", rantId, "favorite"], withToken(token), {
+        method: "POST",
+    });
 }
 
 export async function unFavorite(rantId: number, token: t.Token) {
-    return request(
-        ["devrant/rants", rantId, "unfavorite"],
-        mapTokenToRequest(token),
-        { method: "POST" }
-    );
+    return request(["devrant/rants", rantId, "unfavorite"], withToken(token), {
+        method: "POST",
+    });
 }
 
 export async function subscribe(toUserId: number, token: t.Token) {
-    return request(["users", toUserId, "subscribe"], mapTokenToRequest(token), {
+    return request(["users", toUserId, "subscribe"], withToken(token), {
         method: "POST",
     });
 }
 
 export async function unSubscribe(toUserId: number, token: t.Token) {
-    return request(["users", toUserId, "subscribe"], mapTokenToRequest(token), {
+    return request(["users", toUserId, "subscribe"], withToken(token), {
         method: "DELETE",
     });
 }
